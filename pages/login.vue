@@ -16,16 +16,17 @@
           Login
         </button>
       </div>
-
-      <div>
-        {{ auth.user }}
-      </div>
     </form>
   </div>
 </template>
 
 <script lang="ts" setup>
 const auth = useAuth()
+const route = useRouter()
+
+if (auth.user.value) {
+  route.push('/')
+}
 
 const formData = ref({
   email: '',
@@ -34,15 +35,14 @@ const formData = ref({
 
 const login = async () => {
   try {
-    const result = await auth.login(formData.value)
-    console.log(result)
+    const response = await auth.login(formData.value)
+
+    if (response.user.id) {
+      route.push('/')
+    }
   }
   catch (e) {
     console.error(e)
   }
 }
 </script>
-
-<style>
-
-</style>

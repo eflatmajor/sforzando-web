@@ -1,5 +1,3 @@
-import { reactive } from "vue"
-
 export interface LoginBody {
   email: string
   password: string
@@ -37,16 +35,21 @@ export const useAuth = () => {
       body
     })
 
-    console.log('!!!', response, '!!!')
-
     if (response.user.name && response.user.email) {
-      console.log('setting user')
       user.value = response.user
     }
-    else {
-      console.log('no user to set')
-      console.log(response)
-    }
+
+    return response
+  }
+
+  async function logout() {
+    const response = await api.post("/logout", {
+      headers: {
+        "X-XSRF-TOKEN": await getCSRFCookie(),
+      }
+    })
+
+    user.value = null
 
     return response
   }
@@ -67,8 +70,6 @@ export const useAuth = () => {
       }
     })
 
-    console.log('me response', response);
-
     return response
   }
 
@@ -76,6 +77,7 @@ export const useAuth = () => {
     me,
     user,
     login,
+    logout,
     register
   }
 }
