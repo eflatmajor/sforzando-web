@@ -1,6 +1,8 @@
 export default defineNuxtPlugin(async (nuxtApp) => {
-  const { me, user } = useAuth()
+  const { getUser } = useAuth()
+  await getUser()
 
+  /*
   try {
     const result: any = await me()
     user.value = result
@@ -8,4 +10,5 @@ export default defineNuxtPlugin(async (nuxtApp) => {
   catch(e) {
     console.error(e)
   }
+  */
 })

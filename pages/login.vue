@@ -25,7 +25,7 @@ const auth = useAuth()
 const route = useRouter()
 
 if (auth.user.value) {
-  route.push('/')
+  await navigateTo('/')
 }
 
 const formData = ref({
@@ -38,7 +38,7 @@ const login = async () => {
     const response = await auth.login(formData.value)
 
     if (response.user.id) {
-      route.push('/')
+      await navigateTo('/')
     }
   }
   catch (e) {

@@ -48,7 +48,7 @@ export const useAuth = () => {
         "X-XSRF-TOKEN": await getCSRFCookie(),
       }
     })
-
+    
     user.value = null
 
     return response
@@ -73,11 +73,30 @@ export const useAuth = () => {
     return response
   }
 
+  async function getUser(): Promise<User | null> {
+    try {
+      const requestHeaders = useRequestHeaders(['cookie'])
+      const response = await api.get<User>('/user', {
+        headers: {
+          ...requestHeaders,
+        },
+      })
+
+      user.value = response
+
+      return response
+    }
+    catch {
+      return null
+    }
+  }
+
   return {
     me,
     user,
     login,
     logout,
-    register
+    register,
+    getUser
   }
 }

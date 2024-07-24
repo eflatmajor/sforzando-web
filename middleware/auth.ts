@@ -1,9 +1,9 @@
 export default defineNuxtRouteMiddleware(async (to, from) => {
-  const auth = useAuth();
+  const { user } = useAuth()
 
-  if ( ! auth.user.value) {
+  if ( ! user.value) {
     console.log('not logged in');
-    navigateTo('/login');
+    return navigateTo('/login');
     // await useRouter().push({ path: '/login', force: true })
     // window.location.href = '/login'
   }
